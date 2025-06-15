@@ -250,7 +250,7 @@ export default function Testimonials() {
                   
                   {/* Quote marks */}
                   <div className="absolute top-10 left-10 text-blue-500/10 text-9xl font-serif select-none">
-                    "
+                    '
                   </div>
                   
                   <div className="relative z-10 flex flex-col lg:flex-row gap-10">
