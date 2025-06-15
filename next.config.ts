@@ -12,9 +12,10 @@ const nextConfig: NextConfig = {
       'azure.microsoft.com',
       'raw.githubusercontent.com',
       'github.githubassets.com',
+      'i.pravatar.cc', // Added for Testimonials.tsx avatars
     ],
   },
-  serverExternalPackages: ['three'], // Moved from experimental.serverComponentsExternalPackages
+  serverExternalPackages: ['three'],
   webpack: (config, { isServer }) => {
     // Add GLSL loader
     config.module.rules.push({
@@ -26,7 +27,6 @@ const nextConfig: NextConfig = {
     // Important: return the modified config
     return config;
   },
-  // Enable compiler for styled-components if you're using them
   compiler: {
     styledComponents: true,
   },

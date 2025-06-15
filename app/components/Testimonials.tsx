@@ -65,7 +65,7 @@ export default function Testimonials() {
         clearInterval(progressInterval);
       };
     }
-  }, [isPaused, isInView]);
+  }, [isPaused, isInView, testimonials.length]);
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
@@ -122,7 +122,7 @@ export default function Testimonials() {
       <motion.div
         className="absolute inset-0 bg-gray-900"
       >
-        <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] bg-[length:60px_60px] opacity-5"></div>
+        <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] bg-[length:60px_60px] opacity-5" />
       </motion.div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
@@ -156,7 +156,7 @@ export default function Testimonials() {
               className="flex justify-center"
             >
               <div className="w-full md:w-3/4 lg:w-2/3 bg-gradient-to-br from-gray-800 to-blue-900 rounded-2xl backdrop-blur-lg border border-gray-700/50 p-8 shadow-xl hover:shadow-2xl transition-all duration-300 group">
-                <div className="absolute -inset-0.5 bg-gradient-to-r from-gray-800 to-blue-900 rounded-2xl opacity-0 group-hover:opacity-20 blur-md transition duration-300"></div>
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-gray-800 to-blue-900 rounded-2xl opacity-0 group-hover:opacity-20 blur-md transition duration-300" />
                 <div className="relative flex flex-col items-center md:flex-row md:items-start mb-6">
                   {testimonials[currentIndex].avatar && (
                     <motion.div
@@ -168,7 +168,7 @@ export default function Testimonials() {
                       <Image
                         src={testimonials[currentIndex].avatar}
                         alt={testimonials[currentIndex].author}
-                        fill={true}
+                        fill
                         className="rounded-full object-cover"
                         sizes="80px"
                       />
@@ -181,7 +181,7 @@ export default function Testimonials() {
                     </p>
                   </div>
                 </div>
-                <p className="text-lg text-gray-200 italic leading-relaxed text-center before:content-['\201C'] after:content-['\201D'] before:text-blue-400 after:text-blue-400 before:mr-1 after:ml-1">
+                <p className="text-lg text-gray-200 italic leading-relaxed text-center before:content-['\u201C'] after:content-['\u201D'] before:text-blue-400 after:text-blue-400 before:mr-1 after:ml-1">
                   <span>{testimonials[currentIndex].quote}</span>
                 </p>
               </div>
@@ -207,7 +207,8 @@ export default function Testimonials() {
               variants={childVariants}
               className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl group transition-all duration-300"
             >
-              <span className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full opacity-0 group-hover:opacity-30 blur-md transition duration-300"></span>
+              <span className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full opacity- Hilda
+0 group-hover:opacity-30 blur-md transition duration-300" />
               <svg
                 className="w-6 h-6 relative"
                 fill="none"
@@ -229,7 +230,7 @@ export default function Testimonials() {
               variants={childVariants}
               className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl group transition-all duration-300"
             >
-              <span className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full opacity-0 group-hover:opacity-30 blur-md transition duration-300"></span>
+              <span className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full opacity-0 group-hover:opacity-30 blur-md transition duration-300" />
               {isPaused ? (
                 <FiPlay className="w-6 h-6 relative" />
               ) : (
@@ -242,7 +243,7 @@ export default function Testimonials() {
               variants={childVariants}
               className="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-4 rounded-full shadow-lg hover:shadow-xl group transition-all duration-300"
             >
-              <span className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full opacity-0 group-hover:opacity-30 blur-md transition duration-300"></span>
+              <span className="absolute -inset-0.5 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full opacity-0 group-hover:opacity-30 blur-md transition duration-300" />
               <svg
                 className="w-6 h-6 relative"
                 fill="none"
