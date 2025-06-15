@@ -19,7 +19,7 @@ const testimonials: Testimonial[] = [
     quote: 'Their innovative solutions transformed our business operations, delivering exceptional results beyond our expectations. The team demonstrated remarkable expertise and commitment throughout the engagement.',
     author: 'Johnathan Delacroix',
     company: 'TechCorp International',
-    avatar: 'https://randomuser.me/api/portraits/men/32.jpg',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=112&h=112&q=80',
     role: 'Chief Executive Officer',
     rating: 5
   },
@@ -27,7 +27,7 @@ const testimonials: Testimonial[] = [
     quote: 'A truly professional team that delivered a seamless and cutting-edge application with perfect execution. Their attention to detail and technical prowess set them apart in the industry.',
     author: 'Dr. Jane Smithson',
     company: 'InnoVate Solutions',
-    avatar: 'https://randomuser.me/api/portraits/women/44.jpg',
+    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=112&h=112&q=80',
     role: 'Director of Product Innovation',
     rating: 5
   },
@@ -35,7 +35,7 @@ const testimonials: Testimonial[] = [
     quote: 'Unparalleled expertise and attention to detail. Our project was a massive success, achieving 300% ROI in the first quarter post-implementation. Simply outstanding work.',
     author: 'Alexander Brown',
     company: 'FutureWorks Global',
-    avatar: 'https://randomuser.me/api/portraits/men/68.jpg',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=112&h=112&q=80',
     role: 'Chief Technology Officer',
     rating: 5
   },
@@ -43,7 +43,7 @@ const testimonials: Testimonial[] = [
     quote: 'The strategic insights provided by this team revolutionized our digital transformation journey. Their solutions are elegant, scalable, and precisely tailored to our needs.',
     author: 'Sophia Chen',
     company: 'OmniDigital',
-    avatar: 'https://randomuser.me/api/portraits/women/63.jpg',
+    avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&auto=format&fit=crop&w=112&h=112&q=80',
     role: 'VP of Engineering',
     rating: 5
   },
@@ -51,7 +51,7 @@ const testimonials: Testimonial[] = [
     quote: "Working with this team was a game-changer for our organization. They delivered ahead of schedule while maintaining the highest quality standards we've ever experienced.",
     author: 'Michael Rodriguez',
     company: 'Nexus Enterprises',
-    avatar: 'https://randomuser.me/api/portraits/men/85.jpg',
+    avatar: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&auto=format&fit=crop&w=112&h=112&q=80',
     role: 'Chief Digital Officer',
     rating: 5
   },
@@ -86,7 +86,7 @@ export default function Testimonials() {
         clearInterval(progressInterval);
       };
     }
-  }, [isPaused, isInView]); // Removed testimonials.length from dependencies
+  }, [isPaused, isInView]);
 
   const handlePrev = () => {
     setDirection('prev');
@@ -250,7 +250,7 @@ export default function Testimonials() {
                   
                   {/* Quote marks */}
                   <div className="absolute top-10 left-10 text-blue-500/10 text-9xl font-serif select-none">
-                    &quot;
+                    "
                   </div>
                   
                   <div className="relative z-10 flex flex-col lg:flex-row gap-10">
