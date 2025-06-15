@@ -3,7 +3,6 @@
 import { motion, LazyMotion, domAnimation, useScroll, useTransform } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
 import Hero from './components/Hero';
-import AboutHero from './about/AboutHero';
 import CoreValues from './about/CoreValues';
 import AboutTechStack from './about/TechStack';
 import Team from './about/Team';

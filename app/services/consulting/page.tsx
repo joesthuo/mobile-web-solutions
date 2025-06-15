@@ -28,7 +28,7 @@ export default function ConsultingPage() {
 
   return (
     <section className="relative overflow-hidden min-h-screen py-32">
-      /* Cosmic Background */
+      {/* Cosmic Background */}
       <motion.div
         className="absolute inset-0 bg-gray-900"
         initial={{ opacity: 0 }}
@@ -38,13 +38,13 @@ export default function ConsultingPage() {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557683311-eac922347aa1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=10')] opacity-10"></div>
       </motion.div>
 
-      /* Floating Grid Pattern */
+      {/* Floating Grid Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557683311-eac922347aa1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=10')] bg-[length:60px_60px]"></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" ref={ref}>
-        /* Header Section */
+        {/* Header Section */}
         <motion.div
           variants={childVariants}
           initial="hidden"
@@ -59,7 +59,7 @@ export default function ConsultingPage() {
           </p>
         </motion.div>
 
-        /* Features Section */
+        {/* Features Section */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -97,7 +97,7 @@ export default function ConsultingPage() {
           ))}
         </motion.div>
 
-        /* Animated Stats */
+        {/* Animated Stats */}
         <motion.div
           variants={childVariants}
           className="mb-20"
@@ -123,7 +123,7 @@ export default function ConsultingPage() {
           </div>
         </motion.div>
 
-        /* Call to Action */
+        {/* Call to Action */}
         <motion.div
           variants={childVariants}
           className="text-center"

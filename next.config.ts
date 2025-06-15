@@ -2,20 +2,19 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  swcMinify: true,
   images: {
-    domains: ['images.unsplash.com', 'source.unsplash.com',  'upload.wikimedia.org',
+    domains: [
+      'images.unsplash.com',
+      'source.unsplash.com',
+      'upload.wikimedia.org',
       'static.figma.com',
       'www.php.net',
       'azure.microsoft.com',
       'raw.githubusercontent.com',
-      'github.githubassets.com'],
-     // Add your image domains here
+      'github.githubassets.com',
+    ],
   },
-  experimental: {
-    esmExternals: 'loose', // Required for Three.js and other ESM packages
-    serverComponentsExternalPackages: ['three'], // For Three.js SSR compatibility
-  },
+  serverExternalPackages: ['three'], // Moved from experimental.serverComponentsExternalPackages
   webpack: (config, { isServer }) => {
     // Add GLSL loader
     config.module.rules.push({

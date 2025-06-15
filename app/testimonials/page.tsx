@@ -2,7 +2,7 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { FaStar, FaQuoteLeft, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 
 const TESTIMONIALS = [
@@ -11,7 +11,7 @@ const TESTIMONIALS = [
     name: 'Sarah Johnson',
     role: 'Senior Frontend Developer',
     company: 'TechCorp',
-    quote: 'The resources here transformed our team’s workflow. The in-depth guides and premium content are unmatched.',
+    quote: 'The resources here transformed our team\u2019s workflow. The in-depth guides and premium content are unmatched.',
     rating: 5,
     image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
     featured: true,
@@ -66,30 +66,28 @@ const TESTIMONIALS = [
 export default function TestimonialsPage() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isMounted, setIsMounted] = useState(false);
   const { scrollYProgress } = useScroll();
   const yBg = useTransform(scrollYProgress, [0, 1], [0, -100]);
   const opacityBg = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
-
-  useEffect(() => {
-    setIsMounted(true);
-    const interval = setInterval(() => {
-      handleNext();
-    }, 8000);
-    return () => clearInterval(interval);
-  }, []);
 
   const filteredTestimonials = activeFilter === 'All'
     ? TESTIMONIALS
     : TESTIMONIALS.filter((t) => t.featured);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % filteredTestimonials.length);
-  };
+  }, [activeFilter]);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     setCurrentSlide((prev) => (prev - 1 + filteredTestimonials.length) % filteredTestimonials.length);
-  };
+  }, [activeFilter]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      handleNext();
+    }, 8000);
+    return () => clearInterval(interval);
+  }, [handleNext]);
 
   return (
     <div className="relative overflow-hidden min-h-screen">
@@ -98,7 +96,7 @@ export default function TestimonialsPage() {
         style={{ y: yBg, opacity: opacityBg }}
         className="absolute inset-0 bg-gray-900"
       >
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557683311-eac922347aa1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=10')] opacity-10" />
+        <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] bg-[length:60px_60px] opacity-5" />
       </motion.div>
 
       <div className="relative max-w-7xl mx-auto px-6 py-32 z-10">
@@ -117,7 +115,7 @@ export default function TestimonialsPage() {
             Voices of <span className="text-blue-500">Testimonials</span>
           </h1>
           <p className="text-xl md:text-2xl leading-8 text-gray-300 max-w-3xl mx-auto">
-            Trusted by industry leaders who've transformed their businesses with our solutions
+            Trusted by industry leaders who\u2019ve transformed their businesses with our solutions
           </p>
         </motion.div>
 

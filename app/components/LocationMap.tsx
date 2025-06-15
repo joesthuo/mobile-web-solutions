@@ -7,7 +7,7 @@ import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
 import OSM from 'ol/source/OSM';
-import { fromLonLat } from 'ol/proj';
+import { fromLonLat, toLonLat } from 'ol/proj';
 import { defaults as defaultControls } from 'ol/control';
 import Zoom from 'ol/control/Zoom';
 import ScaleLine from 'ol/control/ScaleLine';
@@ -31,22 +31,21 @@ interface LocationMapProps {
 const DEFAULT_LOCATION = {
   lng: -122.3321,
   lat: 47.6062,
-  zoom: 12
+  zoom: 12,
 };
 
 export default function LocationMap({
   initialLocation = DEFAULT_LOCATION,
   markerColor = '#FF3E4D',
-  className = ''
+  className = '',
 }: LocationMapProps) {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<Map | null>(null);
   const [zoom, setZoom] = useState(initialLocation.zoom || DEFAULT_LOCATION.zoom);
   const [isLoading, setIsLoading] = useState(true);
-  const [bearing, setBearing] = useState(0);
   const [center, setCenter] = useState({
     lng: initialLocation.lng,
-    lat: initialLocation.lat
+    lat: initialLocation.lat,
   });
 
   // Initialize map
@@ -57,7 +56,7 @@ export default function LocationMap({
 
     // Create marker feature
     const marker = new Feature({
-      geometry: new Point(fromLonLat([initialLocation.lng, initialLocation.lat]))
+      geometry: new Point(fromLonLat([initialLocation.lng, initialLocation.lat])),
     });
 
     // Custom marker style
@@ -65,53 +64,50 @@ export default function LocationMap({
       new Style({
         image: new Icon({
           anchor: [0.5, 1],
-          src: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="${encodeURIComponent(markerColor)}"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
-          scale: 0.75
-        })
+          src: `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="${encodeURIComponent(
+            markerColor
+          )}"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
+          scale: 0.75,
+        }),
       })
     );
 
     // Vector layer for marker
     const vectorLayer = new VectorLayer({
       source: new VectorSource({
-        features: [marker]
-      })
+        features: [marker],
+      }),
     });
 
-    // Create map instance with OSM tiles
+    // Create map instance
     const map = new Map({
       target: mapRef.current,
       layers: [
         new TileLayer({
-          source: new OSM()
+          source: new OSM(),
         }),
-        vectorLayer
+        vectorLayer,
       ],
       view: new View({
         center: fromLonLat([initialLocation.lng, initialLocation.lat]),
         zoom: initialLocation.zoom || DEFAULT_LOCATION.zoom,
-        rotation: 0
+        rotation: 0,
       }),
-      controls: defaultControls().extend([
-        new Zoom(),
-        new ScaleLine()
-      ])
+      controls: defaultControls().extend([new Zoom(), new ScaleLine()]),
     });
 
     // Event listeners
     map.on('movestart', () => setIsLoading(true));
-    
+
     map.on('moveend', () => {
       setIsLoading(false);
       const view = map.getView();
       const currentZoom = view.getZoom();
       if (currentZoom) setZoom(Math.floor(currentZoom));
-      
-      setBearing(view.getRotation() * (180 / Math.PI));
-      
+
       const centerCoords = view.getCenter();
       if (centerCoords) {
-        const [lng, lat] = fromLonLat(centerCoords);
+        const [lng, lat] = toLonLat(centerCoords);
         setCenter({ lng, lat });
       }
     });
@@ -121,6 +117,7 @@ export default function LocationMap({
 
     mapInstance.current = map;
 
+    // Cleanup
     return () => {
       mapInstance.current?.setTarget(undefined);
       mapInstance.current = null;
@@ -133,7 +130,7 @@ export default function LocationMap({
       const currentZoom = view.getZoom() || 0;
       view.animate({
         zoom: currentZoom + 1,
-        duration: 200
+        duration: 200,
       });
     }
   };
@@ -144,7 +141,7 @@ export default function LocationMap({
       const currentZoom = view.getZoom() || 0;
       view.animate({
         zoom: currentZoom - 1,
-        duration: 200
+        duration: 200,
       });
     }
   };
@@ -152,7 +149,7 @@ export default function LocationMap({
   const resetBearing = () => {
     mapInstance.current?.getView().animate({
       rotation: 0,
-      duration: 500
+      duration: 500,
     });
   };
 
@@ -163,18 +160,17 @@ export default function LocationMap({
         center: fromLonLat([initialLocation.lng, initialLocation.lat]),
         zoom: initialLocation.zoom || DEFAULT_LOCATION.zoom,
         rotation: 0,
-        duration: 1500
+        duration: 1500,
       });
     }
   };
 
   return (
-    <div className={`relative overflow-hidden rounded-xl shadow-lg border border-gray-200 bg-gray-100 ${className}`}>
+    <div
+      className={`relative overflow-hidden rounded-xl shadow-lg border border-gray-200 bg-gray-100 ${className}`}
+    >
       {/* Map container */}
-      <div 
-        ref={mapRef} 
-        className="w-full h-full min-h-[400px]"
-      />
+      <div ref={mapRef} className="w-full h-full min-h-[400px]" />
 
       {/* Loading overlay */}
       {isLoading && (
@@ -191,7 +187,7 @@ export default function LocationMap({
       )}
 
       {/* Map controls */}
-      <div className="absolute bottom-4 right-4 flex flex-col space-y-2 z-[5]">
+      <div className="absolute bottom-4 right-4 flex flex-col space-y-2 z-10">
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
@@ -222,7 +218,7 @@ export default function LocationMap({
       </div>
 
       {/* Location info */}
-      <div className="absolute top-4 left-4 p-3 rounded-lg shadow-md z-[5] bg-white/90 text-gray-800">
+      <div className="absolute top-4 left-4 p-3 rounded-lg shadow-md z-10 bg-white/90 text-gray-800">
         <div className="flex items-center space-x-2">
           <FiMapPin className="text-red-500" />
           <div>
@@ -239,7 +235,7 @@ export default function LocationMap({
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={flyToInitialLocation}
-        className="absolute top-4 right-4 p-2 rounded-lg shadow-md z-[5] bg-white text-gray-700"
+        className="absolute top-4 right-4 p-2 rounded-lg shadow-md z-10 bg-white text-gray-700"
         aria-label="Reset to initial location"
       >
         <FiMapPin className="w-5 h-5" />

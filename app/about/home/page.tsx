@@ -1,7 +1,8 @@
 'use client';
 
-import { motion, LazyMotion, domAnimation, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, LazyMotion, domAnimation, useScroll, useTransform } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
+import Image from 'next/image';
 
 const CosmicBackground = () => {
   const ref = useRef(null);
@@ -18,9 +19,23 @@ const CosmicBackground = () => {
       style={{ y: yBg, opacity }}
       className="fixed inset-0 -z-10"
     >
-      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')] bg-cover bg-center"></div>
+      <div className="absolute inset-0">
+        <Image
+          src="https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+          alt="Cosmic background"
+          fill
+          style={{ objectFit: 'cover' }}
+        />
+      </div>
       <div className="absolute inset-0 bg-gradient-to-b from-gray-900/95 via-gray-900/30 to-gray-900/95"></div>
-      <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-geometric.png')] opacity-10"></div>
+      <div className="absolute inset-0">
+        <Image
+          src="https://www.transparenttextures.com/patterns/dark-geometric.png"
+          alt="Dark geometric pattern"
+          fill
+          style={{ objectFit: 'cover', opacity: 0.1 }}
+        />
+      </div>
     </motion.div>
   );
 };
@@ -164,16 +179,21 @@ const TeamMember = ({ name, role, image, bio }: { name: string; role: string; im
       onHoverStart={() => setIsHovered(true)}
       onHoverEnd={() => setIsHovered(false)}
     >
-      <motion.img
-        src={image}
-        alt={name}
-        className="w-full h-96 object-cover"
+      <motion.div
+        className="relative w-full h-96"
         animate={{
           scale: isHovered ? 1.05 : 1,
           filter: isHovered ? 'brightness(0.7)' : 'brightness(1)'
         }}
         transition={{ duration: 0.5 }}
-      />
+      >
+        <Image
+          src={image}
+          alt={name}
+          fill
+          style={{ objectFit: 'cover' }}
+        />
+      </motion.div>
       
       <motion.div 
         className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex flex-col justify-end p-6"
@@ -208,7 +228,7 @@ const TeamMember = ({ name, role, image, bio }: { name: string; role: string; im
         >
           <a href="#" className="text-blue-400 hover:text-blue-300 transition-colors duration-300">
             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path d="M22.675 0H1.325C.593 0 0 .593 0 1.325v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.593 1.323-1.325V1.325C24 .593 23.407 0 22.675 0z"/>
+              <path d="M22.675 0H1.325C.593 0 0 .593 0 1.873v21.351C0 23.407.593 24 1.325 24H12.82v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.795.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.763v2.313h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.323-.593 1.323-1.325V1.325C24 .593 23.407 0 22.675 0z"/>
             </svg>
           </a>
           <a href="#" className="text-blue-400 hover:text-blue-300 transition-colors duration-300">
@@ -253,28 +273,36 @@ const TestimonialCard = ({
       viewport={{ once: true, margin: "-100px" }}
     >
       <div className="absolute inset-0 bg-blue-400/5 group-hover:bg-blue-400/10 transition-all duration-500 opacity-0 group-hover:opacity-100"></div>
-      <div className="text-blue-400 text-5xl mb-4 absolute top-4 right-6 opacity-20 group-hover:opacity-30 transition-opacity duration-300">"</div>
+      <div className="text-blue-400 text-5xl mb-4 absolute top-4 right-6 opacity-20 group-hover:opacity-30 transition-opacity duration-300">&quot;</div>
       <div className="relative z-10">
         <p className="text-gray-300 mb-6 text-lg leading-relaxed group-hover:text-gray-200 transition-colors duration-300">
           {quote}
         </p>
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <img 
-              src={image} 
-              alt={name} 
-              className="w-12 h-12 rounded-full mr-4 border-2 border-blue-400/30 group-hover:border-blue-400/50 transition-all duration-300"
-            />
+            <div className="relative w-12 h-12 mr-4">
+              <Image 
+                src={image} 
+                alt={name}
+                fill
+                style={{ objectFit: 'cover', borderRadius: '50%' }}
+                className="border-2 border-blue-400/30 group-hover:border-blue-400/50 transition-all duration-300"
+              />
+            </div>
             <div>
               <h4 className="font-bold text-white group-hover:text-blue-100 transition-colors duration-300">{name}</h4>
               <p className="text-gray-400 text-sm group-hover:text-blue-300/80 transition-colors duration-300">{role}</p>
             </div>
           </div>
-          <img 
-            src={companyLogo} 
-            alt="Company logo" 
-            className="h-8 opacity-70 group-hover:opacity-90 transition-opacity duration-300"
-          />
+          <div className="relative h-8">
+            <Image 
+              src={companyLogo} 
+              alt="Company logo"
+              fill
+              style={{ objectFit: 'contain', opacity: 0.7 }}
+              className="group-hover:opacity-90 transition-opacity duration-300"
+            />
+          </div>
         </div>
       </div>
       <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-400/0 via-blue-400/60 to-blue-400/0 opacity-30 group-hover:opacity-70 transition-opacity duration-500"></div>
@@ -312,10 +340,6 @@ const TimelineItem = ({
 export default function AboutPage() {
   const [isClient, setIsClient] = useState(false);
   const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ['start start', 'end end']
-  });
 
   useEffect(() => {
     setIsClient(true);
@@ -405,7 +429,7 @@ export default function AboutPage() {
       name: "Emily Rodriguez",
       role: "Head of Innovation",
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
-      bio: "Pioneer in AI-driven UX. Named 'Top 30 Under 30 in Tech' by Forbes. Regular speaker at tech conferences."
+      bio: "Pioneer in AI-driven UX. Named &apos;Top 30 Under 30 in Tech&apos; by Forbes. Regular speaker at tech conferences."
     }
   ];
 
@@ -484,7 +508,14 @@ export default function AboutPage() {
           whileInView="visible"
           viewport={{ once: true, margin: '-100px' }}
         >
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/dark-matter.png')] opacity-20"></div>
+          <div className="absolute inset-0">
+            <Image
+              src="https://www.transparenttextures.com/patterns/dark-matter.png"
+              alt="Dark matter pattern"
+              fill
+              style={{ objectFit: 'cover', opacity: 0.2 }}
+            />
+          </div>
           <div className="absolute inset-0 border-t border-b border-orange-400/10 pointer-events-none"></div>
           <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 text-center relative z-10">
             <motion.div
@@ -497,7 +528,7 @@ export default function AboutPage() {
                 Ready to <span className="text-orange-400">Elevate</span> Your Digital Presence?
               </h2>
               <p className="text-xl md:text-2xl max-w-3xl mx-auto mb-12 text-gray-300 leading-relaxed">
-                Let's collaborate to build something extraordinary. Our team is ready to bring your vision to life.
+                Let&apos;s collaborate to build something extraordinary. Our team is ready to bring your vision to life.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <motion.button
@@ -575,11 +606,15 @@ export default function AboutPage() {
               >
                 <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-blue-400/10 rounded-2xl -z-10 blur-lg opacity-70"></div>
                 <div className="relative overflow-hidden rounded-xl shadow-2xl">
-                  <img 
-                    src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
-                    alt="Skycode Studio Team" 
-                    className="w-full h-auto"
-                  />
+                  <div className="relative w-full h-auto">
+                    <Image 
+                      src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" 
+                      alt="Skycode Studio Team"
+                      width={1200}
+                      height={800}
+                      style={{ objectFit: 'cover' }}
+                    />
+                  </div>
                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent flex flex-col justify-end p-8">
                     <h3 className="text-2xl font-bold text-white mb-2">Our Global Team</h3>
                     <p className="text-gray-300">50+ engineers across 3 continents</p>

@@ -4,6 +4,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { FiLayers, FiEye, FiPenTool } from 'react-icons/fi';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function UIUXDesignPage() {
   const ref = useRef(null);
@@ -28,7 +29,7 @@ export default function UIUXDesignPage() {
 
   return (
     <section className="relative overflow-hidden min-h-screen py-32">
-      /* Cosmic Background */
+      {/* Cosmic Background */}
       <motion.div
         className="absolute inset-0 bg-gray-900"
         initial={{ opacity: 0 }}
@@ -38,13 +39,13 @@ export default function UIUXDesignPage() {
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557683311-eac922347aa1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=10')] opacity-10"></div>
       </motion.div>
 
-      /* Floating Grid Pattern */
+      {/* Floating Grid Pattern */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557683311-eac922347aa1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=10')] bg-[length:60px_60px]"></div>
+        <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] bg-[length:60px_60px]"></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" ref={ref}>
-        /* Header Section */
+        {/* Header Section */}
         <motion.div
           variants={childVariants}
           initial="hidden"
@@ -59,7 +60,7 @@ export default function UIUXDesignPage() {
           </p>
         </motion.div>
 
-        /* Features Section */
+        {/* Features Section */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -97,7 +98,7 @@ export default function UIUXDesignPage() {
           ))}
         </motion.div>
 
-        /* Design Showcase */
+        {/* Design Showcase */}
         <motion.div
           variants={childVariants}
           className="mb-20"
@@ -114,18 +115,24 @@ export default function UIUXDesignPage() {
               <motion.div
                 key={index}
                 variants={childVariants}
-                className="relative overflow-hidden rounded-xl"
+                className="relative overflow-hidden rounded-xl w-full h-64"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
-                <img src={src} alt={`Design ${index + 1}`} className="w-full h-64 object-cover" />
+                <Image
+                  src={src}
+                  alt={`Design ${index + 1}`}
+                  fill={true}
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent"></div>
               </motion.div>
             ))}
           </div>
         </motion.div>
 
-        /* Call to Action */
+        {/* Call to Action */}
         <motion.div
           variants={childVariants}
           className="text-center"

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { 
   FaLinkedin, FaTwitter, FaGithub, FaDribbble, 
-  FaFacebook, FaInstagram, FaYoutube 
+  FaInstagram
 } from 'react-icons/fa';
 import { 
   FiMail, FiPhone, FiMapPin, FiArrowUp 

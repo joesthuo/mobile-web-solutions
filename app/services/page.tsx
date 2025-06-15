@@ -10,6 +10,7 @@ import {
   FiBarChart2, 
   FiShield 
 } from 'react-icons/fi';
+import Link from 'next/link';
 import ServiceCard from '../components/ServiceCard';
 
 type Service = {
@@ -182,16 +183,16 @@ export default function ServicesPage() {
           animate={isInView ? 'visible' : 'hidden'}
           className="mt-20 text-center"
         >
-          <h3 className="text-2xl font-semibold text-white mb-6">
-            Ready to elevate your digital presence?
+          <h3 className="text-2xl font-semibold text-blue-500 mb-6">
+            Don\u2019t just take our word for it...
           </h3>
-          <a
+          <Link
             href="/contact"
-            className="relative inline-block bg-blue-500 text-white font-semibold py-3 px-8 rounded-full group hover:bg-blue-600 transition duration-300"
+            className="inline-block bg-blue-500 text-white font-semibold py-3 px-8 rounded-full hover:bg-blue-600 transition-all duration-300"
           >
-            <span className="relative">Get in Touch</span>
-          </a>
-          <p className="mt-6 text-sm text-gray-400">
+            Get in Touch
+          </Link>
+          <p className="mt-6 text-lg text-gray-300">
             Join 500+ visionary brands who trust us to deliver unparalleled excellence.
           </p>
         </motion.div>

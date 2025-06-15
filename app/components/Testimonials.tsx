@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { FiPause, FiPlay } from 'react-icons/fi';
+import Image from 'next/image';
 
 interface Testimonial {
   quote: string;
@@ -158,14 +159,20 @@ export default function Testimonials() {
                 <div className="absolute -inset-0.5 bg-gradient-to-r from-gray-800 to-blue-900 rounded-2xl opacity-0 group-hover:opacity-20 blur-md transition duration-300"></div>
                 <div className="relative flex flex-col items-center md:flex-row md:items-start mb-6">
                   {testimonials[currentIndex].avatar && (
-                    <motion.img
-                      src={testimonials[currentIndex].avatar}
-                      alt={testimonials[currentIndex].author}
-                      className="w-20 h-20 rounded-full mr-0 md:mr-6 mb-4 md:mb-0 border-2 border-blue-300/50 object-cover group-hover:scale-105 transition-transform duration-300"
+                    <motion.div
+                      className="relative w-20 h-20 rounded-full mr-0 md:mr-6 mb-4 md:mb-0 border-2 border-blue-300/50 group-hover:scale-105 transition-transform duration-300"
                       initial={{ scale: 0.8, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ duration: 0.4 }}
-                    />
+                    >
+                      <Image
+                        src={testimonials[currentIndex].avatar}
+                        alt={testimonials[currentIndex].author}
+                        fill={true}
+                        className="rounded-full object-cover"
+                        sizes="80px"
+                      />
+                    </motion.div>
                   )}
                   <div className="text-center md:text-left">
                     <p className="text-xl font-semibold text-white">{testimonials[currentIndex].author}</p>
@@ -174,8 +181,8 @@ export default function Testimonials() {
                     </p>
                   </div>
                 </div>
-                <p className="text-lg text-gray-200 italic leading-relaxed text-center">
-                  "{testimonials[currentIndex].quote}"
+                <p className="text-lg text-gray-200 italic leading-relaxed text-center before:content-['\201C'] after:content-['\201D'] before:text-blue-400 after:text-blue-400 before:mr-1 after:ml-1">
+                  <span>{testimonials[currentIndex].quote}</span>
                 </p>
               </div>
             </motion.div>

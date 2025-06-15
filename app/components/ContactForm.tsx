@@ -1,13 +1,12 @@
 'use client';
 
 import { motion, AnimatePresence, LazyMotion, domAnimation } from 'framer-motion';
-import { useState, useRef, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { 
   FiSend, 
   FiCheckCircle, 
   FiAlertCircle, 
   FiLoader,
-  FiMic,
   FiUser,
   FiMail,
   FiMessageSquare,
@@ -19,7 +18,6 @@ import { FaRobot, FaMagic, FaRegLightbulb } from 'react-icons/fa';
 import { RiEmotionHappyLine, RiEmotionUnhappyLine } from 'react-icons/ri';
 import { z } from 'zod';
 import { useDebounce } from 'use-debounce';
-import { toast } from 'react-hot-toast';
 import axios from 'axios';
 
 // Define form schema with Zod
@@ -41,7 +39,6 @@ interface ContactFormProps {
   darkMode?: boolean;
   autoDetectSentiment?: boolean;
   enableAI?: boolean;
-  enableVoice?: boolean;
   apiEndpoint?: string;
   analyticsEnabled?: boolean;
 }
@@ -52,7 +49,6 @@ export default function ContactForm({
   darkMode = false,
   autoDetectSentiment = true,
   enableAI = true,
-  enableVoice = true,
   apiEndpoint = '/api/contact',
   analyticsEnabled = true,
 }: ContactFormProps) {
@@ -67,45 +63,10 @@ export default function ContactForm({
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
   const [sentiment, setSentiment] = useState<MessageSentiment>('neutral');
   const [aiSuggestions, setAiSuggestions] = useState<string[]>([]);
-  const [isListening, setIsListening] = useState(false);
-  const [currentField, setCurrentField] = useState<string | null>(null);
   const [isMinimized, setIsMinimized] = useState(false);
   const [debouncedMessage] = useDebounce(formData.message, 500);
   
-  const formRef = useRef<HTMLFormElement>(null);
-  const recognitionRef = useRef<any>(null);
-
-  // Initialize speech recognition
-  useEffect(() => {
-    if (enableVoice && typeof window !== 'undefined' && 'webkitSpeechRecognition' in window) {
-      recognitionRef.current = new (window as any).webkitSpeechRecognition();
-      recognitionRef.current.continuous = false;
-      recognitionRef.current.interimResults = false;
-      recognitionRef.current.lang = 'en-US';
-
-      recognitionRef.current.onstart = () => setIsListening(true);
-      recognitionRef.current.onend = () => setIsListening(false);
-      recognitionRef.current.onresult = (event: any) => {
-        const transcript = event.results[0][0].transcript;
-        setFormData(prev => ({
-          ...prev,
-          [currentField || 'message']: 
-            currentField === 'message' 
-              ? `${prev.message} ${transcript}`.trim()
-              : transcript,
-        }));
-      };
-      recognitionRef.current.onerror = (event: any) => {
-        toast.error('Voice recognition failed. Please try again.');
-      };
-    }
-
-    return () => {
-      if (recognitionRef.current) {
-        recognitionRef.current.stop();
-      }
-    };
-  }, [currentField, enableVoice]);
+  const formRef = useRef(null);
 
   // Analyze message sentiment and content
   const analyzeMessage = useCallback(async (text: string) => {
@@ -135,7 +96,6 @@ export default function ContactForm({
 
       // Track analytics event
       if (analyticsEnabled) {
-        // Replace with your analytics service
         // analytics.track('MessageAnalyzed', { sentiment: detectedSentiment, messageLength: text.length });
       }
     } catch (err) {
@@ -198,23 +158,8 @@ export default function ContactForm({
     }
   };
 
-  const startVoiceInput = (field: string) => {
-    setCurrentField(field);
-    if (recognitionRef.current) {
-      recognitionRef.current.start();
-    }
-  };
-
   const toggleMinimize = () => {
     setIsMinimized(!isMinimized);
-  };
-
-  const getSentimentColor = () => {
-    switch (sentiment) {
-      case 'positive': return 'text-green-500';
-      case 'negative': return 'text-red-500';
-      default: return 'text-blue-500';
-    }
   };
 
   const getSentimentIcon = () => {
@@ -303,7 +248,7 @@ export default function ContactForm({
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                       className={`
-                        w-full pl-10 pr-12 py-3 rounded-xl border-2
+                        w-full pl-10 pr-4 py-3 rounded-xl border-2
                         ${darkMode ? 
                           'bg-gray-800 border-gray-700 focus:border-blue-500 text-gray-100' : 
                           'bg-white border-gray-200 focus:border-blue-400 text-gray-800'
@@ -316,27 +261,6 @@ export default function ContactForm({
                       aria-describedby={errors.name ? 'name-error' : undefined}
                       placeholder="Enter your name"
                     />
-                    {enableVoice && (
-                      <button
-                        type="button"
-                        onClick={() => startVoiceInput('name')}
-                        className={`
-                          absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full
-                          ${darkMode ? 
-                            isListening && currentField === 'name' ? 
-                              'bg-red-500 text-white' : 
-                              'text-gray-400 hover:bg-gray-700' :
-                            isListening && currentField === 'name' ?
-                              'bg-red-500 text-white' :
-                              'text-gray-500 hover:bg-gray-100'
-                          }
-                          transition-colors
-                        `}
-                        aria-label="Voice input for name"
-                      >
-                        <FiMic />
-                      </button>
-                    )}
                   </div>
                   {errors.name && (
                     <p id="name-error" className="mt-1 text-sm text-red-500">{errors.name}</p>
@@ -379,7 +303,7 @@ export default function ContactForm({
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       className={`
-                        w-full pl-10 pr-12 py-3 rounded-xl border-2
+                        w-full pl-10 pr-4 py-3 rounded-xl border-2
                         ${darkMode ? 
                           'bg-gray-800 border-gray-700 focus:border-purple-500 text-gray-100' : 
                           'bg-white border-gray-200 focus:border-purple-400 text-gray-800'
@@ -392,27 +316,6 @@ export default function ContactForm({
                       aria-describedby={errors.email ? 'email-error' : undefined}
                       placeholder="Enter your email"
                     />
-                    {enableVoice && (
-                      <button
-                        type="button"
-                        onClick={() => startVoiceInput('email')}
-                        className={`
-                          absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full
-                          ${darkMode ? 
-                            isListening && currentField === 'email' ? 
-                              'bg-red-500 text-white' : 
-                              'text-gray-400 hover:bg-gray-700' :
-                            isListening && currentField === 'email' ?
-                              'bg-red-500 text-white' :
-                              'text-gray-500 hover:bg-gray-100'
-                          }
-                          transition-colors
-                        `}
-                        aria-label="Voice input for email"
-                      >
-                        <FiMic />
-                      </button>
-                    )}
                   </div>
                   {errors.email && (
                     <p id="email-error" className="mt-1 text-sm text-red-500">{errors.email}</p>
@@ -454,7 +357,7 @@ export default function ContactForm({
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       className={`
-                        w-full pl-10 pr-12 py-3 rounded-xl border-2 min-h-[150px]
+                        w-full pl-10 pr-4 py-3 rounded-xl border-2 min-h-[150px]
                         ${darkMode ? 
                           'bg-gray-800 border-gray-700 focus:border-teal-500 text-gray-100' : 
                           'bg-white border-gray-200 focus:border-teal-400 text-gray-800'
@@ -467,27 +370,6 @@ export default function ContactForm({
                       aria-describedby={errors.message ? 'message-error' : undefined}
                       placeholder="Enter your message"
                     />
-                    {enableVoice && (
-                      <button
-                        type="button"
-                        onClick={() => startVoiceInput('message')}
-                        className={`
-                          absolute right-3 bottom-3 p-2 rounded-full
-                          ${darkMode ? 
-                            isListening && currentField === 'message' ? 
-                              'bg-red-500 text-white' : 
-                              'text-gray-400 hover:bg-gray-700' :
-                            isListening && currentField === 'message' ?
-                              'bg-red-500 text-white' :
-                              'text-gray-500 hover:bg-gray-100'
-                          }
-                          transition-colors
-                        `}
-                        aria-label="Voice input for message"
-                      >
-                        <FiMic />
-                      </button>
-                    )}
                   </div>
                   {errors.message && (
                     <p id="message-error" className="mt-1 text-sm text-red-500">{errors.message}</p>
@@ -722,7 +604,7 @@ export default function ContactForm({
                       text-sm mt-1
                       ${darkMode ? 'text-green-400' : 'text-green-700'}
                     `}>
-                      We'll respond within 24 hours. A confirmation has been sent to your email.
+                      We\u2019ll respond within 24 hours. A confirmation has been sent to your email.
                     </p>
                   </div>
                 </motion.div>

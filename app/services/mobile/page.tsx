@@ -40,7 +40,7 @@ export default function MobileAppsPage() {
 
       {/* Floating Grid Pattern */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557683311-eac922347aa1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=10')] bg-[length:60px_60px]"></div>
+        <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] bg-[length:60px_60px]"></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" ref={ref}>
@@ -108,12 +108,12 @@ export default function MobileAppsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {[
               {
-                quote: "Their mobile apps transformed our user engagement!",
-                author: "Jane Doe, TechCorp",
+                quote: 'Their mobile apps transformed our user engagement!',
+                author: 'Jane Doe, TechCorp',
               },
               {
-                quote: "The smoothest app development process we've experienced.",
-                author: "John Smith, Innovate Inc.",
+                quote: 'The smoothest app development process we have experienced.',
+                author: 'John Smith, Innovate Inc.',
               },
             ].map((testimonial, index) => (
               <motion.div
@@ -121,7 +121,9 @@ export default function MobileAppsPage() {
                 variants={childVariants}
                 className="bg-gray-800/50 backdrop-blur-lg rounded-xl p-6 border border-gray-700/50"
               >
-                <p className="text-gray-200 italic">"{testimonial.quote}"</p>
+                <p className="text-gray-200 italic before:content-['\201C'] after:content-['\201D'] before:text-blue-400 after:text-blue-400 before:mr-1 after:ml-1">
+                  <span>{testimonial.quote}</span>
+                </p>
                 <p className="mt-4 text-white font-semibold">{testimonial.author}</p>
               </motion.div>
             ))}

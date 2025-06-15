@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, LazyMotion, domAnimation, useScroll, useTransform, useSpring } from 'framer-motion';
-import { FiArrowRight, FiArrowDown } from 'react-icons/fi';
+import { FiArrowRight } from 'react-icons/fi';
 import { TypeAnimation } from 'react-type-animation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -23,10 +23,9 @@ type HeroProps = {
 
 const CosmicBackground = ({ variant }: { variant: 'home' | 'about' }) => {
   const { scrollYProgress } = useScroll();
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, 200]);
   const y2 = useTransform(scrollYProgress, [0, 1], [0, 100]);
   const rotate = useTransform(scrollYProgress, [0, 1], [0, 10]);
-  const yOffset = useTransform(scrollYProgress, [0, 1], [0, 100]);
+  const rotateNegative = useTransform(rotate, (r) => -r * 1.5);
 
   return (
     <motion.div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
@@ -39,7 +38,7 @@ const CosmicBackground = ({ variant }: { variant: 'home' | 'about' }) => {
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150%] aspect-square border border-orange-300/20 rounded-full"
           ></motion.div>
           <motion.div
-            style={{ y: y2, rotate: useTransform(rotate, (r) => -r * 1.5) }}
+            style={{ y: y2, rotate: rotateNegative }}
             className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[130%] aspect-square border border-orange-400/20 rounded-full"
           ></motion.div>
         </>
@@ -50,8 +49,6 @@ const CosmicBackground = ({ variant }: { variant: 'home' | 'about' }) => {
 
 export default function Hero({
   variant = 'home',
-  title = 'Skycode',
-  subtitle = 'Studio',
   ctaPrimary = { text: 'Start Your Project', href: '/contact' },
   ctaSecondary = { text: 'View Our Work', href: '/portfolio' },
 }: HeroProps) {
@@ -76,9 +73,8 @@ export default function Hero({
   return (
     <LazyMotion features={domAnimation}>
       <motion.section
-        style={variant === 'about' ? { opacity: heroOpacity, scale: heroScale } : {}}
+        style={variant === 'about' ? { opacity: heroOpacity, scale: heroScale } : undefined}
         className="relative bg-cover bg-center bg-no-repeat min-h-screen flex items-center"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')" }}
       >
         {/* Cosmic Background */}
         {isClient && <CosmicBackground variant={variant} />}

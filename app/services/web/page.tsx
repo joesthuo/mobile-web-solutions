@@ -4,6 +4,7 @@ import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import { FiCode, FiGlobe, FiZap } from 'react-icons/fi';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function WebDevelopmentPage() {
   const ref = useRef(null);
@@ -40,7 +41,7 @@ export default function WebDevelopmentPage() {
 
       {/* Floating Grid Pattern */}
       <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1557683311-eac922347aa1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=10')] bg-[length:60px_60px]"></div>
+        <div className="absolute inset-0 bg-[url('/images/grid-pattern.svg')] bg-[length:60px_60px]"></div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10" ref={ref}>
@@ -105,11 +106,13 @@ export default function WebDevelopmentPage() {
           <h2 className="text-3xl font-semibold text-white text-center mb-10">
             Explore Our Web Solutions
           </h2>
-          <div className="relative overflow-hidden rounded-xl">
-            <img
+          <motion.div className="relative w-full h-96 overflow-hidden rounded-xl">
+            <Image
               src="https://images.unsplash.com/photo-1610986603166-238b9fd6060b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
               alt="Web showcase"
-              className="w-full h-96 object-cover"
+              fill={true}
+              className="object-cover"
+              sizes="100vw"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-gray-900/50 to-transparent"></div>
             <motion.div
@@ -121,7 +124,7 @@ export default function WebDevelopmentPage() {
               <h3 className="text-2xl font-bold">Interactive Web Demos</h3>
               <p className="text-gray-200">Experience our latest projects in action.</p>
             </motion.div>
-          </div>
+          </motion.div>
         </motion.div>
 
         {/* Call to Action */}
