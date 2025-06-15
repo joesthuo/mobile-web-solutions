@@ -156,10 +156,10 @@ export default function ContactPage() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
             </span>
-            Let&apos;s Collaborate
+            Let's Collaborate
           </motion.div>
           <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight">
-            Let&apos;s <span className="text-blue-500">Create</span><br />Something Extraordinary
+            Let's <span className="text-blue-500">Create</span><br />Something Extraordinary
           </h1>
           <motion.p
             initial={{ opacity: 0 }}
