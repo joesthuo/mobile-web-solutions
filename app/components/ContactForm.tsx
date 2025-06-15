@@ -604,7 +604,7 @@ export default function ContactForm({
                       text-sm mt-1
                       ${darkMode ? 'text-green-400' : 'text-green-700'}
                     `}>
-                      We\u2019ll respond within 24 hours. A confirmation has been sent to your email.
+                      We respond within 24 hours. A confirmation has been sent to your email.
                     </p>
                   </div>
                 </motion.div>

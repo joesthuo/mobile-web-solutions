@@ -156,10 +156,10 @@ export default function ContactPage() {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-500 opacity-75" />
               <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
             </span>
-            Let's Collaborate
+            Let&apos;s Collaborate
           </motion.div>
           <h1 className="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight">
-            Let's <span className="text-blue-500">Create</span><br />Something Extraordinary
+            Let&apos;s <span className="text-blue-500">Create</span><br />Something Extraordinary
           </h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -301,7 +301,7 @@ export default function ContactPage() {
                       </motion.div>
                       <h3 className="text-3xl font-bold text-white mb-4">Message Sent!</h3>
                       <p className="text-gray-300 mb-8 max-w-md mx-auto leading-relaxed">
-                        Thank you for reaching out. We\u2019ve received your message and our team will respond within 24 hours.
+                        Thank you for reaching out. We&apos;ve received your message and our team will respond within 24 hours.
                       </p>
                       <motion.button
                         whileHover={{ scale: 1.02 }}
